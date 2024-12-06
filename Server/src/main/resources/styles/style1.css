@@ -1,0 +1,92 @@
+/* Global Styles */
+.root {
+    -fx-background-color: #006400; /* Dark poker table green */
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-text-fill: white; /* White text for all text */
+}
+
+/* VBox Styling */
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+}
+
+/* Label Styling */
+#homeLabel {
+    -fx-text-fill: white; /* White text for the label */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+/* TextField Styling */
+#portText {
+    -fx-background-color: #3CB371; /* Medium sea green for input field */
+    -fx-text-fill: white; /* White text */
+    -fx-border-color: white; /* White border for text field */
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-max-width: 200px;
+}
+
+/* Button Styling */
+#onBtn {
+    -fx-background-color: #228B22; /* Forest green for the button */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, #228B22, 5, 0.5, 0, 0);
+}
+
+#onBtn:hover {
+    -fx-background-color: #006400; /* Dark green on hover */
+    -fx-text-fill: white; /* White text on hover */
+}
+
+/* BorderPane Styling */
+.root {
+    -fx-padding: 20px;
+    -fx-border-radius: 10px;
+}
+
+/* Button Styling */
+#offBtn {
+    -fx-background-color: #228B22; /* Forest green for the button */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, #228B22, 5, 0.5, 0, 0);
+}
+
+#offBtn:hover {
+    -fx-background-color: #006400; /* Dark green on hover */
+    -fx-text-fill: white; /* White text on hover */
+}
+
+#numClients {
+    -fx-background-color: #3CB371; /* Medium sea green for the clients button */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+/* ListView Styling */
+#serverInfo {
+    -fx-background-color: #3CB371; /* Medium sea green for the list background */
+    -fx-text-fill: white; /* White text for the list items */
+    -fx-border-color: white; /* White border for the list */
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+}
+
+/* Center VBox Styling */
+.center .vbox {
+    -fx-spacing: 10px; /* Adjust spacing for the center */
+}

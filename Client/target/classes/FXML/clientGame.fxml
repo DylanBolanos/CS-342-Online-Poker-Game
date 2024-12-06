@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gameController"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="root">
+
+    <right>
+        <ListView fx:id="serverComLog"/>
+    </right>
+
+    <center>
+        <VBox fx:id="dealerGui" alignment="CENTER" spacing="290">
+            <HBox fx:id="dealerCards" alignment="CENTER" spacing="10">
+                <Button fx:id="dealerCardOne" text="card1" minWidth="100" minHeight="200"/>
+                <Button fx:id="dealerCardTwo" text="card2" minWidth="100" minHeight="200"/>
+                <Button fx:id="dealerCardThree" text="card3" minWidth="100" minHeight="200"/>
+            </HBox>
+            <VBox fx:id="playerGui" alignment="CENTER" spacing="10">
+                <VBox fx:id="playerButtons" alignment="CENTER" spacing="25">
+                    <Button fx:id="playerDeal" text="Deal" disable="true" onAction="#sendDeal"/>
+                    <Button fx:id="playerAnte" text="AnteBet" onAction="#sendAnte"/>
+                    <Button fx:id="playerPairPlus" text="PairPlusBet" onAction="#sendPairPlus"/>
+                    <Button fx:id="playerFold" text="Fold" disable="true"/>
+                    <TextField fx:id="inputMoney" text="Bet" maxWidth="50"/>
+                </VBox>
+                <Button fx:id="playAgain" text="Play Again" visible="false" onAction="#playAgain"/>
+                <Button fx:id="quitGame" text="Quit Game" visible="false" onAction="#quitGame"/>
+                <HBox fx:id="playerCards" alignment="CENTER" spacing="10">
+                    <Button fx:id="playerCardOne" text="card1" minWidth="100" minHeight="200"/>
+                    <Button fx:id="playerCardTwo" text="card2" minWidth="100" minHeight="200"/>
+                    <Button fx:id="playerCardThree" text="card3" minWidth="100" minHeight="200"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
