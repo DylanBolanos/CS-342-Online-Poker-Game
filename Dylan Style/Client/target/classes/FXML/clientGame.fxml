@@ -12,6 +12,24 @@
             maxHeight="1000.0" maxWidth="700.0"
             fx:id="root">
 
+    <left>
+        <VBox spacing="500">
+            <MenuBar>
+                <Menu text="Options">
+                    <MenuItem text="Fresh Start" onAction="#resetGame"/>
+                    <MenuItem text="New Look" onAction="#newLook"/>
+                    <MenuItem text="Exit" onAction="#killGame"/>
+                </Menu>
+            </MenuBar>
+
+            <VBox alignment="CENTER">
+                <Label fx:id="totalMoneyLabel" text="Total Money: $100"/>
+                <Label fx:id="totalWinningsLabel" text="Total Winnings: $0"/>
+            </VBox>
+        </VBox>
+
+    </left>
+
     <right>
         <ListView fx:id="serverComLog"/>
     </right>

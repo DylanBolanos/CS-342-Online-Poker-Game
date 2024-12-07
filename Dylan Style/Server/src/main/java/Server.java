@@ -119,6 +119,17 @@ public class Server{
 				try {
 					PokerInfo p = (PokerInfo) in.readObject();
 					printToServerInfo("STATE IS " + p.gameState);
+
+					if(p.fold){
+						printToServerInfo("Player " + count + ": Folded!");
+						p.setTotalWinnings(p.getTotalWinnings() - p.getAnteBet());
+						p.addTotalMoney(p.getAnteBet());
+						System.out.println("yur " + p.getTotalWinnings());
+						System.out.println("yuh " + p.getAnteBet());
+						p.setAnteBet(0);
+						p.fold = false;
+					}
+
 					if(p.getGameState() == 69 && p.sendingAnte){
 						//printToServerInfo("Game State is 69!");
 						printToServerInfo("Player " + count +  ": Set Ante Bet to " + p.getAnteBet());
@@ -128,12 +139,13 @@ public class Server{
 					} else if(p.getGameState() == 69 && p.sendingPairPlus){
 						//printToServerInfo("Game State is 69!");
 						printToServerInfo("Player " + count +  ": Set PairPlus Bet to: " + p.getPairPlusBet());
-						p.sendingPairPlus = false;
+						//p.sendingPairPlus = false;
 						p.addTotalMoney(-p.getAnteBet());
 						printToServerInfo("Player " + count +  ": Has $ " + p.getTotalMoney() + " left!");
 					} else if(p.getGameState() == 169){
 						printToServerInfo("Game State is 169!");
 						p.setPlayBet(p.getAnteBet());
+						p.addTotalMoney(-p.getAnteBet());
 						Dealer d = new Dealer();
 						p.setPlayerHand(d.dealHand());
 						p.setDealerHand(d.dealHand());
@@ -141,11 +153,26 @@ public class Server{
 					} else if(p.getGameState() == 269){
 						printToServerInfo("Game State is 269!");
 
+
 						ArrayList<Card> playerHand = p.getPlayerHand();
 						ArrayList<Card> dealerHand = p.getDealerHand();
 
+						if(p.sendingPairPlus){
+							int ppWinnings = ThreeCardLogic.evalPPWinnings(playerHand, p.getPairPlusBet());
+							System.out.println("Bro won PP: " + ppWinnings);
+							if(ppWinnings == 0){
+								p.setTotalWinnings(p.getTotalWinnings() - p.getPairPlusBet());
+							} else {
+								p.setTotalMoney(ppWinnings + p.getTotalMoney());
+								p.setTotalWinnings(ppWinnings + p.getTotalWinnings());
+							}
+							p.sendingPairPlus = false;
+						}
+
 						int gameResult = ThreeCardLogic.compareHands(dealerHand, playerHand);
 						p.gameResult = gameResult; // saving the game result to the player object
+						System.out.println("PLAYER HAS: " + ThreeCardLogic.evalHand(playerHand));
+						System.out.println("DEAL HAS: " + ThreeCardLogic.evalHand(dealerHand));
 
 						if(gameResult == 2) { // player wins
 							printToServerInfo("Player " + count + ": Game Resulted in a Player win!");
@@ -165,8 +192,12 @@ public class Server{
 							//p.setTotalMoney(losings + p.getTotalMoney());
 							p.setTotalWinnings(p.getTotalWinnings() - losings);
 
-						}  else { // tie we must check for Queen High
+						}  else if(gameResult == 0 || !ThreeCardLogic.queenHigh(dealerHand)){ // tie we must check for Queen High
+							if(!ThreeCardLogic.queenHigh(dealerHand)){
+								printToServerInfo("Player " + count + ": Game Resulted in a tie because of queen high!");
+							}
 							printToServerInfo("Player " + count + ": Game Resulted in a tie");
+							p.setTotalMoney(p.getAnteBet() + p.getPlayBet() + p.getTotalMoney());
 						}
 
 					} else if(p.getGameState() == 369){
@@ -175,18 +206,8 @@ public class Server{
 						p.gameState = 69;
 					}
 
-//					if(p != null) {
-//						System.out.println("POKER OBJECT WAS FOUND MFER");
-//						System.out.println(p.toString());
-////						p.anteBet = 5;
-//					}
-
 					out.writeObject(p);
 					out.flush();
-
-					//String data = in.readObject().toString();
-					//callback.accept("client: " + count + " sent: " + data);
-					//updateClients("client #"+count+" said: "+data);
 
 				}
 				catch(Exception e) {
@@ -194,9 +215,6 @@ public class Server{
 					System.out.println("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
 					printToServerInfo("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
 
-
-					//callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
-					//updateClients("Client #"+count+" has left the server!");
 					clients.remove(this);
 					break;
 				}

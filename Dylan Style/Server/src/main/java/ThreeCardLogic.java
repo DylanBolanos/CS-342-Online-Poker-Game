@@ -154,4 +154,19 @@ public class ThreeCardLogic {
         return 0;
     }
 
+    public static boolean queenHigh(ArrayList<Card> dealersHand){
+        int evalDealer = ThreeCardLogic.evalHand(dealersHand);
+        if(evalDealer == 73){
+            //checks each card
+            for(int i = 0; i < 3; i++) {
+                if(dealersHand.get(i).getValue() >= 12){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return true;
+    }
+
 }

@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -58,19 +59,60 @@ public class gameController {
     Button playAgain;
     @FXML
     Button quitGame;
+    @FXML
+    Label totalMoneyLabel;
+    @FXML
+    Label totalWinningsLabel;
 
     @FXML
     ListView<String> serverComLog;
+
+    boolean greenStyle = true;
+
     static public ObservableList<String> serverComLogList;
 
     int dealButtonState = 0;
 
+    public void killGame(){
+        System.exit(0);
+    }
+
+    public void newLook(){
+        root.getStylesheets().clear();
+        if(greenStyle){
+            root.getStylesheets().add("/styles/style2.css");
+            greenStyle = false;
+        } else{
+            root.getStylesheets().add("/styles/style1.css");
+            greenStyle = true;
+        }
+    }
+
+    public void resetGame(){
+        c.p.gameState = 69;
+        playerDeal.setDisable(true);
+        playerFold.setDisable(true);
+        playerAnte.setDisable(false);
+        playerPairPlus.setDisable(false);
+        resetCards();
+        c.p.setAnteBet(0);
+        c.p.setPlayBet(0);
+        c.p.setTotalMoney(100);
+        c.p.setTotalWinnings(0);
+        c.printToServerComLog("Game has been reset :)");
+
+        totalMoneyLabel.setText("Total Money: $" + c.p.getTotalMoney());
+        totalWinningsLabel.setText("Total Winnings: $" + c.p.getTotalWinnings());
+    }
     public void initializeInfo(Client c) {
         this.c = c;
         this.c.setController(this);
         c.serverComLog = serverComLog;
         serverComLogList = c.serverComLogList;
         serverComLog.setItems(serverComLogList);
+
+        totalMoneyLabel.setText("Total Money: $" + c.p.getTotalMoney());
+        totalWinningsLabel.setText("Total Winnings: $" + c.p.getTotalWinnings());
     }
 
     public void sendAnte(){
@@ -102,6 +144,9 @@ public class gameController {
 
     public void sendDeal(){
         if(dealButtonState == 0){
+            totalMoneyLabel.setText("Total Money: $" + c.p.getTotalMoney());
+            totalWinningsLabel.setText("Total Winnings: $" + c.p.getTotalWinnings());
+
             c.p.gameState = 169;
             playerDeal.setDisable(false);
             playerPairPlus.setDisable(true);
@@ -109,22 +154,28 @@ public class gameController {
             dealButtonState = 1;
             playerDeal.setText("See Cards");
         } else if (dealButtonState == 1){
+            totalMoneyLabel.setText("Total Money: $" + c.p.getTotalMoney());
+            totalWinningsLabel.setText("Total Winnings: $" + c.p.getTotalWinnings());
+
             changeCards();
             playerDeal.setText("Play");
             serverComLog.getItems().add("Ante again to play against dealers hand");
             playerFold.setDisable(false);
             dealButtonState = 2;
         } else if (dealButtonState == 2){
+            totalMoneyLabel.setText("Total Money: $" + c.p.getTotalMoney());
+            totalWinningsLabel.setText("Total Winnings: $" + c.p.getTotalWinnings());
+
             playerDeal.setDisable(true);
             serverComLog.getItems().add("Player has anted " + c.p.getAnteBet() + " to play against dealer");
             showDealerHand();
             c.p.gameState = 269;
-            //implement logic for playing the game THIS IS WHERE I AM LEAVING OFF FOR NOW
             c.send(c.p);
             dealButtonState = 3;
 
             //show new game options
             playAgain.setVisible(true);
+            //quitGame.setVisible(true);
             playerFold.setDisable(true);
 
         }
@@ -137,13 +188,17 @@ public class gameController {
         //its going to act as if you would play out the hand so you can see
         //if the fold was correct or not
         //so basically forget ur ante bet so you dont get any money and click through
-        c.p.setAnteBet(0);
+        c.p.gameResult = 1;
+        c.p.fold = true;
         //correct bool?
-        c.p.sendingAnte = true;
+        //c.p.sendingAnte = true;
         serverComLog.getItems().add("Player has folded");
         serverComLog.getItems().add("Player will not receive any winnings");
         c.send(c.p);
+
         playerFold.setDisable(true);
+        playerDeal.setDisable(true);
+        playAgain.setVisible(true);
     }
 
     public void playAgain() throws IOException {
@@ -159,20 +214,27 @@ public class gameController {
 
         showAll();
         resetCards();
-        c.p.setAnteBet(0);
-        c.p.setPlayBet(0);
-        c.p.gameState = 369;
-        System.out.println("369");
-        c.send(c.p);
+
 
         //here switch up the screens after play again has run
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/clientEndScreen.fxml"));
         Parent holdLoader = loader.load();  // Load the FXML content into a new Parent
         //do we even need to pass it bacause if they play again it will be
         //back to this screen anyways
-//        gameController controller = loader.getController();
-//        controller.initializeInfo(c); // pass the client to the next controller
-        holdLoader.getStylesheets().add("/styles/style1.css");
+        clientEndScreenController controller = loader.getController();
+        controller.initializeInfo(c, c.p.getTotalWinnings(), c.p.gameResult, greenStyle); // pass the client to the next controller
+        if(greenStyle){
+            holdLoader.getStylesheets().add("/styles/style1.css");
+        } else if (!greenStyle){
+            holdLoader.getStylesheets().add("/styles/style2.css");
+        }
+
+        c.p.setAnteBet(0);
+        c.p.setPlayBet(0);
+        c.p.gameState = 369;
+        System.out.println("369");
+        c.send(c.p);
+
         root.getScene().setRoot(holdLoader);
     }
 

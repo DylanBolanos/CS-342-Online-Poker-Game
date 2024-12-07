@@ -14,6 +14,7 @@ class PokerInfo implements Serializable {
 
     boolean sendingAnte = false;
     boolean sendingPairPlus = false;
+    boolean fold = false;
 
     int gameState;
     int gameResult;
