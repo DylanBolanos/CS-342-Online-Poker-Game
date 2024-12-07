@@ -1,0 +1,88 @@
+.root {
+    -fx-background-color: #006400;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-text-fill: white;
+}
+
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+}
+
+#homeLabel {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+#ipText, #portText {
+    -fx-background-color: #3CB371;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-max-width: 200px;
+}
+
+#connectBtn {
+    -fx-background-color: #228B22;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, #228B22, 5, 0.5, 0, 0);
+}
+
+#connectBtn:hover {
+    -fx-background-color: #006400;
+    -fx-text-fill: white;
+}
+
+#test {
+    -fx-background-color: #3CB371;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+#test:hover {
+    -fx-background-color: #228B22;
+    -fx-text-fill: white;
+}
+
+.center .vbox {
+    -fx-spacing: 15px;
+}
+
+#winOrLoser {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+#amountWonText{
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+#totalMoneyLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+#totalWinningsLabel {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}

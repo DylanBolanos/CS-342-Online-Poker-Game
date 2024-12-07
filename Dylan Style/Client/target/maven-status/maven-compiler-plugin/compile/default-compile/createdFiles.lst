@@ -1,0 +1,9 @@
+Client.class
+Deck.class
+Player.class
+PokerInfo.class
+clientEndScreenController.class
+JavaFXTemplate.class
+gameController.class
+Card.class
+homeController.class
