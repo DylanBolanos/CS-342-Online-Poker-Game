@@ -263,19 +263,7 @@ public class gameController {
         assert(false);
         return "Should be dead code";
     }
-//
-//    public void test(){
-//        System.out.println("TRYING TO CONNECT TO MFER");
-//        c = new Client(null, "127.0.0.1", 5555);
-//        c.start();
-//        System.out.println("CONNECTED NWORDS");
-//
-//    }
-//
-//    public void test1(){
-//        c.send(c.p);
-//        System.out.println("SENT POKER INFO");
-//    }
 
 }
+
 
